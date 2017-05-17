@@ -1,7 +1,23 @@
 /*
     Put here all functions to show errors
-    last modification: 02-05-2017
+    last modification: 12-05-2017
 */
+
+
+void blinkErrorLed()
+{
+  //digitalWrite(ERRORLED, HIGH); // turn the error led on
+  rtcNow = rtc.now();
+  int aux_second = rtcNow.second();
+  if(aux_second != second_old)
+  {
+    second_old = aux_second;
+    if(digitalRead(ERRORLED) == LOW) { digitalWrite(ERRORLED, HIGH); }
+    else { digitalWrite(ERRORLED, LOW); }
+    
+  }//end if
+
+  }//end blinkErrorLed
 
 /* errorMSG
  * Return errors messages
@@ -10,7 +26,7 @@
 {
   char buffer[157];
 
-  digitalWrite(ERRORLED, HIGH); // turn the error led on
+  
   errorFlag = 1;
 
   switch (code) {
@@ -24,6 +40,7 @@
       lcd.setCursor(0, 1); // position the cursor to the begining
       lcd.print(buffer);
       lcd.blink();
+      blinkErrorLed();
       delay(1000);
 
 
@@ -41,7 +58,7 @@
       //lcd.clear(); // clear lcd
       lcd.setCursor(0, 1); // position the cursor to the begining
       lcd.print(buffer);
-
+      blinkErrorLed();
 
 #if (DEBUG == 1)
       Serial.print(buffer);
@@ -57,6 +74,7 @@
       lcd.setCursor(1, 0); // position the cursor to the begining
       lcd.print(buffer);
 
+      blinkErrorLed();
 
 #if (DEBUG == 1)
       Serial.print(buffer);

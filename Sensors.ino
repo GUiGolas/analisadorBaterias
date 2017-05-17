@@ -15,6 +15,31 @@ void setup_Sensors()
   
 }//end of setup_Sensors
 
+/*  measureLDR
+ *  measure LDR resistance to check if is dark or bright
+ *  In this case when it's dark the analog read will return a low value (under 200), when it's bright the analog read will 
+ *  return a high value
+ */
+ void measureLDR()
+ {
+    int ldrValue;
+    for(int i=0; i++; i < 10)
+    {
+      ldrValue = analogRead(LDRPIN);
+      delay(5); // give time for adc;
+    }//end for
+
+    ldrValue = ldrValue / 10;
+    
+    
+    if((ldrValue < 200) && (ldrValue > 50)) // if its dark
+    {
+      itsDark = true;
+    }//end if
+    else itsDark = false;
+    
+ }//end of measureLDR
+
 /*  measureVoltage
  *  Function to measure the voltage
  */
@@ -28,7 +53,7 @@ void setup_Sensors()
   for (int i = 0; i < 10; i++)
   {
     adc += (double)analogRead(VOLTPIN); //read analog input
-    delay(10); // give time for adc;
+    delay(5); // give time for adc;
 
   }//end for
 

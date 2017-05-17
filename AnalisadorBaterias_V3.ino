@@ -96,19 +96,19 @@ include the library code:
 
 //### OTHER DEFINITIONS
 //## VOLTAGE LIMITS TO THE LAMPS
-#define L1ON  25.2 // voltage to LAMP 01 turn on
-#define L1OFF 25.0 // voltage to LAMP 01 turn off
-#define L2ON  25.2 // voltage to LAMP 02 turn on
-#define L2OFF 25.0 // voltage to LAMP 02 turn off
-#define L3ON  24.4 // voltage to LAMP 03 turn on
-#define L3OFF 24.2 // voltage to LAMP 03 turn off
+#define L1ON  23.8 // voltage to LAMP 01 turn on
+#define L1OFF 22.8 // voltage to LAMP 01 turn off
+#define L2ON  23.8 // voltage to LAMP 02 turn on
+#define L2OFF 22.8 // voltage to LAMP 02 turn off
+#define L3ON  23.8 // voltage to LAMP 03 turn on
+#define L3OFF 22.8 // voltage to LAMP 03 turn off
 #define L4ON  23.8 // voltage to LAMP 04 turn on
-#define L4OFF 23.6 // voltage to LAMP 04 turn off
+#define L4OFF 22.8 // voltage to LAMP 04 turn off
 
 //# ON/OFF LAMP TIME DEFAULT VALUES
 #define TIMEON 18 // the lamp will turn on at 18:00 o'clock
 #define TIMEOFF 6 // the lamp will turn off at 6:00 o'clock
-#define TIMETHRESHOLD 0 //the limit of time
+#define TIMETHRESHOLD 3 //the limit of time
 
 //# INACTIVITY TIME
 #define ITIME 100
@@ -162,6 +162,7 @@ bool autoMode = false;
 RTC_DS1307 rtc; //real time clock object
 // time variables
 byte second = 0;
+int second_old = 0;
 byte minute = 0;
 int minute_old = 0;
 int hour = 0;
@@ -205,6 +206,8 @@ unsigned long lastDebounceTime = 0;
 bool idleMode = false;
 DateTime lastIdle ; 
 
+//# ldr variables
+bool itsDark = false;
 /***************************************************************************************************************
  ****************************************************************************************************************
  ****************************************************************************************************************/
@@ -245,30 +248,43 @@ void setup() {
 }
 
 void loop() {
-    #if (DEBUG == 1)
-      Serial.print(F("\n\n\n INICIO LOOP: \n\n\n"));
-    #endif
+   // #if (DEBUG == 1)
+    //  Serial.print(F("\n\n\n INICIO LOOP: \n\n\n"));
+    //#endif
 
   measureVoltage(); //measure the voltage
-  if(voltageValue > VSMIN ){
+  #if (DEBUG == 0)
   
-  checkMode();
-  rtcNow = rtc.now();
-  readButtons();
-  if(buttonPressed == 'M') goToMenu = true;
-  if(goToMenu) menu();
-  else screenRotation();
+      if(voltageValue > VSMIN ){
+      
+      checkMode();
+      rtcNow = rtc.now();
+      readButtons();
+      if(buttonPressed == 'M') goToMenu = true;
+      if(goToMenu) menu();
+      else screenRotation();
 
-  }//end if  
-  else
-  {
-    errorMSG(1);
-  }//end else
+      errorFlag = 0;
+      }//end if  
+      else
+      {
+        errorMSG(1);
+      }//end else
+  #endif
+ 
+  #if (DEBUG == 1)
   
-  
+      checkMode();
+      rtcNow = rtc.now();
+      readButtons();
+      if(buttonPressed == 'M') goToMenu = true;
+      if(goToMenu) menu();
+      else screenRotation();
+      
+   #endif
   checkIdle();
   
-  delay(500);
+  //delay(500);
 }
 
 

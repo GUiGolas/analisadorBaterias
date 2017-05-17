@@ -18,7 +18,8 @@ bool setup_RTC()
     {
       if((rtcNow.hour()<1)&&(rtcNow.minute() < 1))
       {
-        rtc.adjust(DateTime(2016, 1, 1, 0, 0, 1));
+        //rtc.adjust(DateTime(2016, 1, 1, 0, 0, 1));
+        rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
     delay(10); // Give time to rtc
       }//end if
     }//end if
@@ -41,7 +42,7 @@ void setRtcHour(int newHour)
   rtcNow = rtc.now();
   int auxMin = rtcNow.minute();
   rtc.adjust(DateTime(2016, 1, 1, newHour, auxMin, 0));
-
+  delay(5);
 }//end setRtcHour
 
 void setRtcMin(int newMin)
@@ -49,5 +50,5 @@ void setRtcMin(int newMin)
   rtcNow = rtc.now();
   int auxHour = rtcNow.hour();
   rtc.adjust(DateTime(2016, 1, 1, auxHour, newMin, 0));
-
+  delay(5);
 }//end setRtcHour

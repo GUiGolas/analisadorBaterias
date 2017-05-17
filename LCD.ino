@@ -16,7 +16,21 @@ void setup_LCD()
   digitalWrite(LCDBL,HIGH);
   lcd.print(F("RDMEC"));
   delay(5000); //give time to show the company brand
-  
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(F("!!  CONFIRA O "));
+  lcd.setCursor(0, 1);
+  lcd.print(F("    RELOGIO   !!"));
+  delay(4000); 
+
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(F("RELOGIO: "));
+  rtcNow = rtc.now();
+  lcd.print(convertStringTime(rtcNow.hour()));
+  lcd.print(F(":"));
+  lcd.print(convertStringTime(rtcNow.minute()));
+  delay(6000); 
 }//end of setup_LCD
 
 
@@ -148,7 +162,7 @@ void mainInfoLCD(int screenCode)
           lcd.setCursor(7,0);
           if (autoMode) // check the working mode
           {
-            lcd.print(F("      AUTO"));
+            lcd.print(F("     AUTO"));
 
           }//end if
           else

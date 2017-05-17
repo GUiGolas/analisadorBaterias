@@ -72,7 +72,7 @@ void startAutoMode()
             int aux2 = hour - TIMEOFF;
             aux2 = abs(aux2);
         
-            if (aux <= TIMETHRESHOLD || aux2 < TIMETHRESHOLD )
+            if ((aux <= TIMETHRESHOLD || aux2 < TIMETHRESHOLD) && itsDark)
             {
               activate = true;
         
@@ -119,7 +119,7 @@ void startManualMode()
  */
  void checkMode()
  {
-    if(!digitalRead(MODEBUTTONPIN))
+    if(digitalRead(MODEBUTTONPIN) == HIGH)
     {
       autoMode = true;
       startAutoMode();

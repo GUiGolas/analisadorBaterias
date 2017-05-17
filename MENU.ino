@@ -103,12 +103,22 @@ void menu()
         {
           actualDateMinute = actualDateMinute + 1;
           if(actualDateMinute > MAXMINUTE){actualDateMinute = MINMINUTE;} 
+           #if (DEBUG == 1)
+            Serial.print(F("\n\n\n MINUTOS: "));
+           Serial.print(actualDateMinute);
+           Serial.print(F("\n\n\n"));
+          #endif
           setRtcMin(actualDateMinute);
         }
         if(buttonPressed == 'D')
         {
           actualDateMinute = actualDateMinute - 1;  
           if(actualDateMinute < MINMINUTE){actualDateMinute = MAXMINUTE;}
+          #if (DEBUG == 1)
+            Serial.print(F("\n\n\n MINUTOS: "));
+           Serial.print(actualDateMinute);
+           Serial.print(F("\n\n\n"));
+          #endif
           setRtcMin(actualDateMinute);
         }
         if(buttonPressed == 'S'){currentMenu = 11;}

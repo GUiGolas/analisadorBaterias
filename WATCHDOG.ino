@@ -38,6 +38,10 @@ void checkIdle()
         activateIdle();
       }//end if
   }//end if idleMode
-  
+
+  if(errorFlag == 0)
+  {
+    digitalWrite(ERRORLED, LOW);
+  }
 }//end of checkIdle
 
